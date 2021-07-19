@@ -961,7 +961,7 @@ end
     local nearestDistance = 10000000
     for k,v in pairs(self.DroppedTroops) do
       local distance = self:_GetDistance(v:GetCoordinate(),unitcoord)
-      if distance < nearestDistance then
+      if distance < nearestDistance and v:CountAliveUnits() > 0 then
         nearestGroup = v
         nearestGroupIndex = k
         nearestDistance = distance
@@ -1617,7 +1617,6 @@ function CTLD:_BuildObjectFromCrates(Group,Unit,Build)
     self.TroopCounter = self.TroopCounter + 1
     local alias = string.format("%s-%d", _template, math.random(1,100000))
     self.DroppedTroops[self.TroopCounter] = SPAWN:NewWithAlias(_template,alias)
-      :InitRandomizeUnits(true,20,2)
       :InitDelayOff()
       :SpawnFromVec2(randomcoord)
     if self.movetroopstowpzone and canmove then
